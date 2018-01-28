@@ -1,8 +1,16 @@
-// // Twilio Credentials
+//  SMSPigeon
+/** This project consists of using Twilio's API to take a start and end address from a text message and use Google Maps Direction's 
+  * API to obtain directions and send them back to the user. The user will have to text the number 438-500-MAPS (438-500-6277) to 
+  * get instructions towards its destination. 
+
+  * @author Steven Iacobellis, Emanuel Sharma, Tatum Alenko, Narra Pangan
+  * @version January 28th 2018 */
+     
+//Twilio Credentials
 const accountSid = 'ACf6a7c177cb6b65a1582f72995d53396c';
 const authToken = '1c0e6e9c117ec4fa02d0a7e21237a23a';
 
-// // require the Twilio module and create a REST client
+// // Require the Twilio module and create a REST client
 const client = require('twilio')(accountSid, authToken);
 
 const http = require('http');
