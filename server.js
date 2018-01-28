@@ -76,39 +76,42 @@ http.createServer(app).listen(1337, () => {
 });
 
 function checkFrom(compare) {
-    const keywords = ['from ', 'de ', 'beginning at ']
+    const keywords = ['from ', 'de ', 'beginning at '];
     let indice = -1;
     let i;
-    for(i = 0; i < keywords.length; i++)
-        if (compare.indexOf(keywords[i]) != -1) {
-            indice = compare.indexOf(keywords[i]);
-            break;
-        }
+    for (i = 0; i < keywords.length; i++) {
+ if (compare.indexOf(keywords[i]) != -1) {
+        indice = compare.indexOf(keywords[i]);
+        break;
+    }
+    }
     return { length: keywords[i].length, indice };
 }
 
 function checkTo(compare) {
-    const keywords = ['to ', 'towards ', 'toward ', 'toward ']
+    const keywords = ['to ', 'towards ', 'toward ', 'toward '];
     let indice = -1;
     let i;
-    for (i = 0; i < keywords.length; i++)
-        if (compare.indexOf(keywords[i]) != -1) {
-            indice = compare.indexOf(keywords[i])
-            break
-        }
-    return { length: keywords[i].length, indice }
+    for (i = 0; i < keywords.length; i++) {
+ if (compare.indexOf(keywords[i]) != -1) {
+        indice = compare.indexOf(keywords[i]);
+        break;
+    }
+    }
+    return { length: keywords[i].length, indice };
 }
 
 function checkBy(compare) {
-    let keywords = ['using ', 'by means of ', 'by means ', 'via ', 'by '];
+    const keywords = ['using ', 'by means of ', 'by means ', 'via ', 'by '];
     let indice = -1;
     let i;
-    for (i = 0; i < keywords.length; i++)
+    for (i = 0; i < keywords.length; i++) {
         if (compare.indexOf(keywords[i]) != -1) {
-            indice = compare.indexOf(keywords[i])
-            break
+            indice = compare.indexOf(keywords[i]);
+            break;
         }
-    return { length: keywords[i].length, indice }
+    }
+    return { length: keywords[i].length, indice };
 }
 async function getGmapsRes(input) {
     console.log(input);
