@@ -1,10 +1,11 @@
-//  SMS Pigeon - A SMS Maps Service for the Data-less Travellers
-/** This project consists of using Twilio's API to take a start and end address from a text message and use Google Maps Direction's
+/** SMS Pigeon - A SMS Maps Service for the Data-less Travellers
+  * This project consists of using Twilio's API to take a start and end address from a text message and use Google Maps Direction's
   * API to obtain directions and send them back to the user. The user will have to text the number 438-795-MAPS (438-500-6277) to
   * get instructions towards its destination.
 
   * @author Steven Iacobellis, Emanuel Sharma, Tatum Alenko, Narra Pangan
-  * @version January 28th 2018 */
+  * @version 1.0
+  */
 
 const http = require('http');
 const bodyParser = require('body-parser');
