@@ -7,6 +7,7 @@
   * @version 1.0
   */
 
+const secrets = require('./secrets.json');
 const http = require('http');
 const bodyParser = require('body-parser');
 
@@ -15,7 +16,7 @@ const app = require('express')();
 const { MessagingResponse } = require('twilio').twiml;
 
 const googleMapsClient = require('@google/maps').createClient({
-    key: 'AIzaSyD1ii-FjGln2tvyMg_3VqZSLuPsR4ill-s',
+    key: secrets.googleApiKey,
     Promise, // 'Promise' is the native constructor.
 });
 
@@ -39,7 +40,7 @@ app.post('/sms', async (req, res) => {
             return;
         }
 
-        const directions = await getGmapsRes(input);
+        const directions = await getGmapsDirections(input);
         let shortDirections = [];
         console.log(directions);
 
@@ -75,45 +76,7 @@ http.createServer(app).listen(1337, () => {
     console.log('Express server listening on port 1337');
 });
 
-function checkFrom(compare) {
-    const keywords = ['from ', 'de ', 'beginning at '];
-    let indice = -1;
-    let i;
-    for (i = 0; i < keywords.length; i++) {
- if (compare.indexOf(keywords[i]) != -1) {
-        indice = compare.indexOf(keywords[i]);
-        break;
-    }
-    }
-    return { length: keywords[i].length, indice };
-}
-
-function checkTo(compare) {
-    const keywords = ['to ', 'towards ', 'toward ', 'toward '];
-    let indice = -1;
-    let i;
-    for (i = 0; i < keywords.length; i++) {
- if (compare.indexOf(keywords[i]) != -1) {
-        indice = compare.indexOf(keywords[i]);
-        break;
-    }
-    }
-    return { length: keywords[i].length, indice };
-}
-
-function checkBy(compare) {
-    const keywords = ['using ', 'by means of ', 'by means ', 'via ', 'by '];
-    let indice = -1;
-    let i;
-    for (i = 0; i < keywords.length; i++) {
-        if (compare.indexOf(keywords[i]) != -1) {
-            indice = compare.indexOf(keywords[i]);
-            break;
-        }
-    }
-    return { length: keywords[i].length, indice };
-}
-async function getGmapsRes(input) {
+async function getGmapsDirections(input) {
     console.log(input);
 
     const keyFrom = getValidAlias(input, ['from ', 'de ', 'beginning at ']);

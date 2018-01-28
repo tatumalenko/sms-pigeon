@@ -1,6 +1,7 @@
 # SMS Pigeon
 > A Maps Service for the Dataless Travellers
 
+![SMS Pigeon](sms-pigeon.gif)
 ## Inspiration
 12 hours of procrastination and first ever hackathon for everyone. Oh, and first time NodeJS noobs for 3/4 of us.
 
