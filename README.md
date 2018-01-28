@@ -7,3 +7,5 @@
 * @author Steven Iacobellis, Emanuel Sharma, Tatum Alenko, Narra Pangan
 
 * @version January 28th 2018 
+
+[logo]: https://pixel.nymag.com/imgs/daily/selectall/2017/02/14/14-trash-doves-1.w600.h315.2x.jpg "Sms-Pigeon"
