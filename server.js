@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/sms', async (req, res) => {
     try {
         const twiml = new MessagingResponse();
-        const input = req.body.Body;
+        const input = req.body.Body.toLowerCase();
 
         // Send help info if requested on format to submit query text
         if (['help me', 'help?', 'help', '?'].includes(input)) {
