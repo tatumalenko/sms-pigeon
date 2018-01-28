@@ -13,8 +13,12 @@ app.post('/sms', (req, res) => {
 
   const twiml = new MessagingResponse();
 
-  const input = "take me from 12190 avenue henri beau to Concordia by metro" //req.body.Body.str.toLowerCase();
+  const input = req.body.Body.toLowerCase();
 
+  function from(compFrom){
+    
+  }
+  
   const from = input.indexOf(" from ");
   const to = input.indexOf(" to ");
   const by = input.indexOf(" by ");
