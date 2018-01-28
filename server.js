@@ -57,22 +57,30 @@ const googleMapsClient = require('@google/maps').createClient({
 // });
 
 const getGmapsRes = async () => {
-    const response = await googleMapsClient.directions({
-        origin: 'Concordia, Montreal, Canada',
-        destination: '1572 visitation street, montreal',
-        mode: 'transit',
-    }).asPromise();
+    try {
+        const response = await googleMapsClient.directions({
+            origin: 'Concordia, Montreal, Canada',
+            destination: '1572 visitation street, montreal',
+            mode: 'transit',
+        }).asPromise();
 
-    response.json.routes.forEach((route) => {
-        route.legs.forEach((leg) => {
-            leg.steps.forEach((step) => {
-                step.steps.forEach((step2) => {
-                    console.log(step2.html_instructions);
-                    console.log(step2.transit_details);
+        response.json.routes.forEach((route) => {
+            if (!Array.isArray(route.legs)) return;
+            route.legs.forEach((leg) => {
+                if (!Array.isArray(leg.steps)) return;
+                leg.steps.forEach((step) => {
+                    if (!Array.isArray(step.steps)) return;
+                    step.steps.forEach((step2) => {
+                        // if (!Array.isArray(step2)) return;
+                        console.log(step2.html_instructions);
+                        console.log(step2.transit_details);
+                    });
                 });
             });
         });
-    });
+    } catch (e) {
+        console.log(e);
+    }
     // console.log(response.json.routes[0].legs[0].steps[0].steps[0].html_instructions);
 };
     // .asPromise()
