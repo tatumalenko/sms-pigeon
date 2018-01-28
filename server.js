@@ -1,17 +1,10 @@
-//  SMSPigeon
+//  SMS Pigeon - A SMS Maps Service for the Data-less Travellers
 /** This project consists of using Twilio's API to take a start and end address from a text message and use Google Maps Direction's
-  * API to obtain directions and send them back to the user. The user will have to text the number 438-500-MAPS (438-500-6277) to
+  * API to obtain directions and send them back to the user. The user will have to text the number 438-795-MAPS (438-500-6277) to
   * get instructions towards its destination.
 
   * @author Steven Iacobellis, Emanuel Sharma, Tatum Alenko, Narra Pangan
   * @version January 28th 2018 */
-
-// Twilio Credentials
-const accountSid = 'ACf6a7c177cb6b65a1582f72995d53396c';
-const authToken = '1c0e6e9c117ec4fa02d0a7e21237a23a';
-
-// // Require the Twilio module and create a REST client
-const client = require('twilio')(accountSid, authToken);
 
 const http = require('http');
 const bodyParser = require('body-parser');
@@ -25,23 +18,34 @@ const googleMapsClient = require('@google/maps').createClient({
     Promise, // 'Promise' is the native constructor.
 });
 
-// app.use(bodyParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/sms', async (req, res) => {
     try {
         const twiml = new MessagingResponse();
         const input = req.body.Body;
+
+        // Send help info if requested on format to submit query text
+        if (['help me', 'help?', 'help', '?'].includes(input)) {
+            const helpMsg = () => ([
+                'To use SMS Pigeon, make sure to enter your map query in the following format:',
+                '"from <address> to <address> by <method=driving|walking|transit>"',
+                'E.g.: "from 1234 mcgill street montreal to 4321 guy avenue montreal by transit"',
+            ].join('\n'));
+            twiml.message(helpMsg());
+            res.writeHead(200, { 'Content-Type': 'text/xml' });
+            res.end(twiml.toString());
+            return;
+        }
+
         const directions = await getGmapsRes(input);
-
-        // console.log(directions);
-
         let shortDirections = [];
-
+        console.log(directions);
 
         if (Array.isArray(directions)) {
             // eslint-disable-next-line no-restricted-syntax
             for (const direction of directions) {
+                // Must loop over array of strings to ensure not over message POST limit of 1600 characters
                 if ([shortDirections, direction].join('\n').length < 1600) {
                     shortDirections.push(direction);
                 } else {
@@ -51,8 +55,13 @@ app.post('/sms', async (req, res) => {
                 }
             }
         }
-        console.log(shortDirections.join('\n'));
-        twiml.message(shortDirections.join('\n'));
+        if (shortDirections.length !== 0) {
+            console.log(shortDirections.join('\n'));
+            twiml.message(shortDirections.join('\n'));
+        } else { // directions is simply a string (not array), likely an error message
+            console.log(directions);
+            twiml.message(directions);
+        }
 
         res.writeHead(200, { 'Content-Type': 'text/xml' });
         res.end(twiml.toString());
@@ -66,56 +75,71 @@ http.createServer(app).listen(1337, () => {
 });
 
 async function getGmapsRes(input) {
+    console.log(input);
+
+    const keyFrom = getValidAlias(input, ['from ', 'de ', 'beginning at ']);
+    const keyTo = getValidAlias(input, ['to ', 'towards ', 'toward ', 'toward ']);
+    const keyBy = getValidAlias(input, ['using ', 'by means of ', 'by means ', 'via ', 'by ']);
+
+    const from = keyFrom.index;
+    const to = keyTo.index;
+    const by = keyBy.index ? keyBy.index : -1;
+
+    const origin = (from != -1) ? input.substring(from + keyFrom.length, Math.min((to < from) ? input.length : to, (by < from) ? input.length : by)) : '';
+    const destination = (to != -1) ? input.substring(to + keyTo.length, Math.min((from < to) ? input.length : from, (by < to) ? input.length : by)) : '';
+    const mode = (by != -1) ? input.substring(by + keyBy.length, Math.min((from < by) ? input.length : from, (to < by) ? input.length : to)) : '';
+
+    console.log(`origin: ${origin}`);
+    console.log(`destination: ${destination}`);
+    console.log(`mode: ${mode}`);
+
+    const errorMsg = () => (['Unfortunately, Google Maps was unable to find any results for you query.',
+        `Origin: ${origin}`,
+        `Destination: ${destination}`,
+        `Mode: ${mode}`].join('\n'));
+
     try {
-        console.log(input);
-        const from = input.indexOf('from ');
-        const to = input.indexOf('to ');
-        const by = input.indexOf('by ');
-
-        const origin = (from != -1) ? input.substring(from + 5, Math.min((to < from) ? input.length : to, (by < from) ? input.length : by)) : '';
-        const destination = (to != -1) ? input.substring(to + 3, Math.min((from < to) ? input.length : from, (by < to) ? input.length : by)) : '';
-        const mode = (by != -1) ? input.substring(by + 3, Math.min((from < by) ? input.length : from, (to < by) ? input.length : to)) : '';
-        console.log(origin);
-        console.log(destination);
-        console.log(mode);
-
         const query = {};
         if (origin) query.origin = origin.toLowerCase().trim();
         if (destination) query.destination = destination.toLowerCase().trim();
-        // if (mode) query.mode = mode.toLowerCase().trim();
+        if (mode) query.mode = mode.toLowerCase().trim();
+        console.log(`mode: ${mode}`);
 
         const response = await googleMapsClient.directions(query).asPromise();
         console.log(response);
 
+        if (['NOT_FOUND', 'ZERO_RESULTS'].includes(response.json.status)) {
+            return errorMsg();
+        }
+
         const replaceThis = [/<b>|<\/b>|<div>|<\/div>|<.*>/g, ''];
         const directions = [];
-
-        // console.log(response);
 
         response.json.routes.forEach((route) => {
             if (!Array.isArray(route.legs)) return;
             route.legs.forEach((leg) => {
                 if (!Array.isArray(leg.steps)) return;
                 leg.steps.forEach((step) => {
-                    // if (!Array.isArray(step.steps)) return;
-                    // step.steps.forEach((step2) => {
-                    //     // if (!Array.isArray(step2)) return;
-                    //     directions.push(step2.html_instructions ? step2.html_instructions.replace(...replaceThis) : step2.html_instructions);
-                    //     console.log(step2.html_instructions ? step2.html_instructions.replace(...replaceThis) : step2.html_instructions);
-                    //     // console.log(step2.transit_details ? step2.transit_details.replace(...replaceThis) : step2.transit_details);
-                    // });
                     directions.push(step.html_instructions ? `▶ ${step.html_instructions.replace(...replaceThis)} (${step.distance.text})` : step.html_instructions);
-                    // console.log(step.html_instructions ? step.html_instructions.replace(...replaceThis) : step.html_instructions);
                 });
             });
         });
 
-        // console.log(directions);
-
         return directions;
     } catch (e) {
         console.log(e);
+        return errorMsg();
     }
-    // console.log(response.json.routes[0].legs[0].steps[0].steps[0].html_instructions);
 }
 
+function getValidAlias(inputToValidate, aliases) {
+    let index = -1;
+    let i;
+    for (i = 0; i < aliases.length; i++) {
+        if (inputToValidate.indexOf(aliases[i]) != -1) {
+            index = inputToValidate.indexOf(aliases[i]);
+            break;
+        }
+    }
+    return aliases[i] ? { length: aliases[i].length, index } : -1;
+}
