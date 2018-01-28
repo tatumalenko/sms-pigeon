@@ -65,8 +65,43 @@ http.createServer(app).listen(1337, () => {
     console.log('Express server listening on port 1337');
 });
 
+function checkFrom(compare) {
+    const keywords = ['from ', 'de ', 'beginning at ']
+    let indice = -1;
+    let i;
+    for(i = 0; i < keywords.length; i++)
+        if (compare.indexOf(keywords[i]) != -1) {
+            indice = compare.indexOf(keywords[i]);
+            break;
+        }
+    return { length: keywords[i].length, indice };
+}
+
+function checkTo(compare) {
+    const keywords = ['to ', 'towards ', 'toward ', 'toward ']
+    let indice = -1;
+    let i;
+    for (i = 0; i < keywords.length; i++)
+        if (compare.indexOf(keywords[i]) != -1) {
+            indice = compare.indexOf(keywords[i])
+            break
+        }
+    return { length: keywords[i].length, indice }
+}
+
+function checkBy(compare) {
+    let keywords = ['using ', 'by means of ', 'by means ', 'via ', 'by '];
+    let indice = -1;
+    let i;
+    for (i = 0; i < keywords.length; i++)
+        if (compare.indexOf(keywords[i]) != -1) {
+            indice = compare.indexOf(keywords[i])
+            break
+        }
+    return { length: keywords[i].length, indice }
+}
 async function getGmapsRes(input) {
-    try {
+    try { /**
         console.log(input);
         const from = input.indexOf('from ');
         const to = input.indexOf('to ');
@@ -78,11 +113,29 @@ async function getGmapsRes(input) {
         console.log(origin);
         console.log(destination);
         console.log(mode);
+    */
 
+        keyFrom = checkFrom(input);
+        keyTo = checkTo(input);
+        keyBy = checkBy(input);
+
+        const from = keyFrom.indice; //input.indexOf("from ");
+        const to = keyTo.indice; //input.indexOf("to ");
+        const by = keyBy.indice; //input.indexOf("by ");
+
+        const origin = (from != -1) ? input.substring(from + keyFrom.length, Math.min((to < from) ? input.length : to, (by < from) ? input.length : by)) : "";
+        const destination = (to != -1) ? input.substring(to + keyTo.length, Math.min((from < to) ? input.length : from, (by < to) ? input.length : by)) : "";
+        const mode = (by != -1) ? input.substring(by + keyBy.length, Math.min((from < by) ? input.length : from, (to < by) ? input.length : to)) : "";
+
+        console.log("location : " + origin);
+        console.log("destination : " + destination);
+        console.log("method : " + mode);
+
+        
         const query = {};
         if (origin) query.origin = origin.toLowerCase().trim();
         if (destination) query.destination = destination.toLowerCase().trim();
-        // if (mode) query.mode = mode.toLowerCase().trim();
+        if (mode) query.mode = mode.toLowerCase().trim();
 
         const response = await googleMapsClient.directions(query).asPromise();
         console.log(response);
