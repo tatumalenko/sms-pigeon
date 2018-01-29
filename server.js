@@ -7,7 +7,6 @@
   * @version 1.0
   */
 
-const secrets = require('./secrets.json');
 const http = require('http');
 const bodyParser = require('body-parser');
 
@@ -16,7 +15,7 @@ const app = require('express')();
 const { MessagingResponse } = require('twilio').twiml;
 
 const googleMapsClient = require('@google/maps').createClient({
-    key: secrets.googleApiKey,
+    key: process.env.GOOGLE_MAPS_API_KEY,
     Promise, // 'Promise' is the native constructor.
 });
 
@@ -72,8 +71,8 @@ app.post('/sms', async (req, res) => {
     }
 });
 
-http.createServer(app).listen(1337, () => {
-    console.log('Express server listening on port 1337');
+http.createServer(app).listen(process.env.HTTP_PORT, () => {
+    console.log(`Express server listening on port ${process.env.HTTP_PORT}`);
 });
 
 async function getGmapsDirections(input) {
