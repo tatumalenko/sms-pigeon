@@ -71,7 +71,11 @@ app.post('/sms', async (req, res) => {
     }
 });
 
-http.createServer(app).listen(process.env.HTTP_PORT, () => {
+// http.createServer(app).listen(process.env.HTTP_PORT, () => {
+//     console.log(`Express server listening on port ${process.env.HTTP_PORT}`);
+// });
+
+app.listen(process.env.HTTP_PORT, () => {
     console.log(`Express server listening on port ${process.env.HTTP_PORT}`);
 });
 
