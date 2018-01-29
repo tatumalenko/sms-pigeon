@@ -95,7 +95,7 @@ async function getGmapsDirections(input) {
     console.log(`destination: ${destination}`);
     console.log(`mode: ${mode}`);
 
-    const errorMsg = () => (['Unfortunately, Google Maps was unable to find any results for you query.',
+    const errorMsg = () => (['Unfortunately, Google Maps was unable to find any results for your query.',
         `Origin: ${origin}`,
         `Destination: ${destination}`,
         `Mode: ${mode}`].join('\n'));

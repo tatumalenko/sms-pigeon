@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon local.js"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +22,7 @@
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.6.0"
+    "eslint-plugin-react": "^7.6.0",
+    "nodemon": "^1.14.11"
   }
 }
