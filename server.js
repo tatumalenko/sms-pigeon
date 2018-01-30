@@ -7,77 +7,75 @@
   * @version 1.0
   */
 
-const http = require('http');
+const express = require('express');
 const bodyParser = require('body-parser');
-
-const app = require('express')();
-
+const path = require('path');
 const { MessagingResponse } = require('twilio').twiml;
-
 const googleMapsClient = require('@google/maps').createClient({
     key: process.env.GOOGLE_MAPS_API_KEY,
     Promise, // 'Promise' is the native constructor.
 });
 
-app.use(bodyParser.urlencoded({ extended: true }));
+const PORT = process.env.PORT || 5000;
 
-app.post('/sms', async (req, res) => {
-    try {
-        const twiml = new MessagingResponse();
-        const input = req.body.Body.toLowerCase();
+express()
+    .use(bodyParser.urlencoded({ extended: true }))
+    .use(express.static(path.join(__dirname, 'public')))
+    .set('views', path.join(__dirname, 'views'))
+    .set('view engine', 'ejs')
+    .get('/', (req, res) => res.render('pages/index'))
+    .post('/sms', async (req, res) => {
+        try {
+            const twiml = new MessagingResponse();
+            const input = req.body.Body.toLowerCase();
 
-        // Send help info if requested on format to submit query text
-        if (['help me', 'help?', 'help', '?'].includes(input)) {
-            const helpMsg = () => ([
-                'To use SMS Pigeon, make sure to enter your map query in the following format:',
-                '"from <address> to <address> by <method=driving|walking|transit>"',
-                'E.g.: "from 1234 mcgill street montreal to 4321 guy avenue montreal by transit"',
-            ].join('\n'));
-            twiml.message(helpMsg());
-            res.writeHead(200, { 'Content-Type': 'text/xml' });
-            res.end(twiml.toString());
-            return;
-        }
+            // Send help info if requested on format to submit query text
+            if (['help me', 'help?', 'help', '?'].includes(input)) {
+                const helpMsg = () => ([
+                    'To use SMS Pigeon, make sure to enter your map query in the following format:',
+                    '"from <address> to <address> by <method=driving|walking|transit>"',
+                    'E.g.: "from 1234 mcgill street montreal to 4321 guy avenue montreal by transit"',
+                ].join('\n'));
+                twiml.message(helpMsg());
+                res.writeHead(200, { 'Content-Type': 'text/xml' });
+                res.end(twiml.toString());
+                return;
+            }
 
-        const directions = await getGmapsDirections(input);
-        let shortDirections = [];
-        console.log(directions);
+            const directions = await getGmapsDirections(input);
+            let shortDirections = [];
+            console.log(directions);
 
-        if (Array.isArray(directions)) {
+            if (Array.isArray(directions)) {
             // eslint-disable-next-line no-restricted-syntax
-            for (const direction of directions) {
+                for (const direction of directions) {
                 // Must loop over array of strings to ensure not over message POST limit of 1600 characters
-                if ([shortDirections, direction].join('\n').length < 1600) {
-                    shortDirections.push(direction);
-                } else {
-                    console.log(shortDirections.join('\n'));
-                    twiml.message(shortDirections.join('\n'));
-                    shortDirections = [direction];
+                    if ([shortDirections, direction].join('\n').length < 1600) {
+                        shortDirections.push(direction);
+                    } else {
+                        console.log(shortDirections.join('\n'));
+                        twiml.message(shortDirections.join('\n'));
+                        shortDirections = [direction];
+                    }
                 }
             }
+            if (shortDirections.length !== 0) {
+                console.log(shortDirections.join('\n'));
+                twiml.message(shortDirections.join('\n'));
+            } else { // directions is simply a string (not array), likely an error message
+                console.log(directions);
+                twiml.message(directions);
+            }
+
+            res.writeHead(200, { 'Content-Type': 'text/xml' });
+            res.end(twiml.toString());
+        } catch (e) {
+            console.log(e);
         }
-        if (shortDirections.length !== 0) {
-            console.log(shortDirections.join('\n'));
-            twiml.message(shortDirections.join('\n'));
-        } else { // directions is simply a string (not array), likely an error message
-            console.log(directions);
-            twiml.message(directions);
-        }
-
-        res.writeHead(200, { 'Content-Type': 'text/xml' });
-        res.end(twiml.toString());
-    } catch (e) {
-        console.log(e);
-    }
-});
-
-// http.createServer(app).listen(process.env.HTTP_PORT, () => {
-//     console.log(`Express server listening on port ${process.env.HTTP_PORT}`);
-// });
-
-app.listen(process.env.PORT || process.env.HTTP_PORT, () => {
-    console.log(`Express server listening on port ${process.env.HTTP_PORT}`);
-});
+    })
+    .listen(PORT, () => {
+        console.log(`Express server listening on port ${PORT}`);
+    });
 
 async function getGmapsDirections(input) {
     console.log(input);
