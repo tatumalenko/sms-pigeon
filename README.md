@@ -1,7 +1,7 @@
 # SMS Pigeon
 > A Maps Service for the Dataless Travellers
 
-![SMS Pigeon](public/logo.gif)
+![SMS Pigeon](public/images/logo.gif)
 ## Inspiration
 Designing a simple solution to a likely overlooked problem for many.
 
@@ -31,13 +31,13 @@ NodeJS, what is an API, what can we do with all these things, and how we can mak
 ## Usage
 
 ### Getting Some Help:
-![Basic Query](docs/images/screenshot-help.jpg)
+![Basic Query](public/images/screenshot-help.jpg)
 
 ### Basic Map Directions Query:
-![Basic Query](docs/images/screenshot-to-from.jpg)
+![Basic Query](public/images/screenshot-to-from.jpg)
 
 ### Basic Map Directions Query with Transportation Mode:
-![Basic Query with Transportation Mode](docs/images/screenshot-to-from-by.jpg)
+![Basic Query with Transportation Mode](public/images/screenshot-to-from-by.jpg)
 
 
 
