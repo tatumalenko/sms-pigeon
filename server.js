@@ -6,7 +6,7 @@
   * @author Steven Iacobellis, Emanuel Sharma, Tatum Alenko, Narra Pangan
   * @version 1.0
   */
-console.log(process.env.GOOGLE_MAPS_API_KEY);
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
