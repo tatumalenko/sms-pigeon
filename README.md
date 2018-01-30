@@ -29,16 +29,9 @@ NodeJS, what is an API, what can we do with all these things, and how we can mak
 `node.js`, `javascript `, `twilio`, `google-directions`
 
 ## Usage
-
-### Getting Some Help:
-![Basic Query](public/images/screenshot-help.jpg)
-
-### Basic Map Directions Query:
-![Basic Query](public/images/screenshot-to-from.jpg)
-
-### Basic Map Directions Query with Transportation Mode:
-![Basic Query with Transportation Mode](public/images/screenshot-to-from-by.jpg)
-
+Getting some help          |  Map directions query | Map directions query with transportation mode
+:-------------------------:|:---------------------:|:----------------------------------------------:
+![](public/images/screenshot-help.jpg) | ![](public/images/screenshot-to-from.jpg) | ![](public/images/screenshot-to-from-by.jpg)
 
 
 
