@@ -17,6 +17,7 @@
   "dependencies": {
     "@google/maps": "^0.4.5",
     "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
     "express": "^4.16.2",
     "foreman": "2.0.0",
     "twilio": "^3.11.1"
