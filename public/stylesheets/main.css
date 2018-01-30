@@ -1,5 +1,5 @@
 .jumbotron {
-  background: #532F8C;
+  background: rgba(140, 47, 47, 0);
   color: white;
   padding-bottom: 80px; }
   .jumbotron .btn-primary {
@@ -8,7 +8,7 @@
     .jumbotron .btn-primary:hover {
       background: #7646c1; }
   .jumbotron p {
-    color: #d9ccee;
+    color: #925beb;
     max-width: 75%;
     margin: 1em auto 2em; }
   .navbar + .jumbotron {
@@ -25,3 +25,11 @@
     .jumbotron .lang-logo img {
       max-width: 100%; }
 
+.item {
+    padding: 20px;
+}
+
+.imageContainer > img:hover {
+    width: 500px;
+    height: 200px;
+}

@@ -1,9 +1,9 @@
 # SMS Pigeon
 > A Maps Service for the Dataless Travellers
 
-![SMS Pigeon](sms-pigeon.gif)
+![SMS Pigeon](public/logo.gif)
 ## Inspiration
-12 hours of procrastination and first ever hackathon for everyone. Oh, and first time NodeJS noobs for 3/4 of us.
+Designing a simple solution to a likely overlooked problem for many.
 
 ## What it does
 SMS Pigeon's goal is simple. Not everyone has the luxury to have mobile plans with data to use Google Maps, especially if someone is travelling in a different country where data roaming plans are unaffordable. When SMS (texting) is all you have on hand, SMS Pigeon comes to the rescue by replying to your text query in simple format with step by step navigation directions to your destination.
@@ -21,7 +21,9 @@ Completely new environment was learned for most of us, were able to finalize our
 NodeJS, what is an API, what can we do with all these things, and how we can make use of it to build something that actually works.
 
 ## What's next for SMS Pigeon
-Ideally, the next step would be to deploy the server in the cloud via Heroku or something similar. After that, the next step would be to integrate speech to text transcription and making the parsing more flexible and less verbose.
+[x] Deploy the server in the cloud via Heroku or something similar
+[ ] Enhancing the text parsing to be less verbose
+[ ] Integrate Twilio's speech to text API functionalities
 
 ## Built With
 `node.js`, `javascript `, `twilio`, `google-directions`
@@ -32,10 +34,10 @@ Ideally, the next step would be to deploy the server in the cloud via Heroku or 
 ![Basic Query](docs/images/screenshot-help.jpg)
 
 ### Basic Map Directions Query:
-![Basic Query](docs/images/screenshot-1.jpg)
+![Basic Query](docs/images/screenshot-to-from.jpg)
 
 ### Basic Map Directions Query with Transportation Mode:
-![Basic Query with Transportation Mode](docs/images/screenshot-2.jpg)
+![Basic Query with Transportation Mode](docs/images/screenshot-to-from-by.jpg)
 
 
 

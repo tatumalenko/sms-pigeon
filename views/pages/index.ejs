@@ -6,59 +6,71 @@
 
 <body>
 
-  <% include ../partials/nav.ejs %>
 
 <div class="jumbotron text-center">
   <div class="container">
-    <a href="/" class="lang-logo">
-      <img src="/lang-logo.png">
+    <a href="/" class="logo">
+      <img src="/logo.gif">
     </a>
-    <h1>Getting Started with Node on Heroku</h1>
-    <p>This is a sample Node application deployed to Heroku. It's a reasonably simple app - but a good foundation for understanding how to get the most out of the Heroku platform.</p>
-    <a type="button" class="btn btn-lg btn-default" href="https://devcenter.heroku.com/articles/getting-started-with-nodejs"><span class="glyphicon glyphicon-flash"></span> Getting Started with Node</a>
-    <a type="button" class="btn btn-lg btn-primary" href="https://github.com/heroku/node-js-getting-started"><span class="glyphicon glyphicon-download"></span> Source on GitHub</a>
+    <h1>SMS Pigeon</h1>
+    <p>A Maps Service for the Dataless Travellers.</p>
   </div>
 </div>
 <div class="container">
-  <div class="alert alert-info text-center" role="alert">
-    To deploy your own copy, and learn the fundamentals of the Heroku platform, head over to the <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs" class="alert-link">Getting Started with Node on Heroku</a> tutorial.
-  </div>
   <hr>
   <div class="row">
-    <div class="col-md-6">
-      <h3><span class="glyphicon glyphicon-info-sign"></span> How this sample app works</h3>
+    <div class="col-md-12">
+      <h3>Inspiration</h3>
+      <p>Designing a simple solution to a likely overlooked problem for many.</p>
+      <h3>What it does</h3>
+      <p>SMS Pigeon's goal is simple. Not everyone has the luxury to have mobile plans with data to use Google Maps, especially if someone is travelling in a different country where data roaming plans are unaffordable. When SMS (texting) is all you have on hand, SMS Pigeon comes to the rescue by replying to your text query in simple format with step by step navigation directions to your destination.
+    </p>
+      <h3>How we built it</h3>
+      <p>SMS Pigeon was built in NodeJS using mainly two APIs: Twilio and Google Maps Directions API. Using an Express server in NodeJS, the Twilio API allows the server to listen for SMS messages sent to the Twilio associated number conveniently chosen as +1-438-795-MAPS(6277). Afterwards, using the Google Maps Directions API, the user query is parsed for specific keywords and sent to request the navigation directions which is then pushed back to the user in a bullet point step-by-step list.
+    </p>
+      <h3>Challenges we ran into</h3>
+      <p>Many... Since 3/4 of our team were introduced to NodeJS for the very first time during this project, a lot of new skills were learned and hair was pulled. Specifically, although the Twilio API was well documented, the integration of a backend server using Express and trying to incorporate the Google Maps Directions API together presented more of an obstacle than we all first assumed. It's the little things that get you!
+    </p>
+    <h3>Accomplishments that we're proud of</h3>
+    <p>Completely new environment was learned for most of us, were able to finalize our minimal viable project and for that we are very pleased. Although we would of loved to have incorporated the speech to text transcription features within the Twilio API to allow users to ask their query vocally, we ran out of time.
+    </p>
+      <h3>What we learned</h3>
+      <p>NodeJS, what is an API, what can we do with all these things, and how we can make use of it to build something that actually works.
+    </p>
+      <h3>What's next for SMS Pigeon</h3>
+      <p><input type="checkbox" disabled="disabled" checked="checked"> Deploy on Heroku</p>
+      <p><input type="checkbox" disabled="disabled"> Enhancing the text parsing to be less verbose</p>
+      <p><input type="checkbox" disabled="disabled"> Integrate Twilio's speech to text API functionalities.</p>
+      <h3>Built with</h3>
       <ul>
-        <li>This app was deployed to Heroku, either using Git or by using <a href="https://github.com/heroku/node-js-getting-started">Heroku Button</a> on the repository.</li>
+          <code>node.js</code>, 
+          <code>javascript</code>, 
+          <code>twilio</code>, 
+          <code>google-directions-api</code>
+      </ul>
+      <h3>Usage</h3>
+      <div class="imageContainer">
+          <table>
+            <tr>
+                <td class="item">
+                    <em>Getting some help</em>
+                    <img class="img-responsive" src="/screenshot-help.jpg" width="300">
+                </td>
+                <td class="item">
+                    <em>Basic Map Directions Query</em>
+                    <img class="img-responsive" src="/screenshot-to-from.jpg" width="300">
+                </td>
+                <td class="item">
+                    <em>Basic Map Directions Query with Transportation Mode</em>
+                    <img class="img-responsive" src="/screenshot-to-from-by.jpg" width="300">
+                </td>
+            </tr>
+          </table>
+          
+        </div>
 
-        <li>When Heroku received the source code, it fetched all the dependencies in the <a href="https://github.com/heroku/node-js-getting-started/blob/master/package.json">package.json</a>, creating a deployable slug.</li>
-        <li>The platform then spins up a dyno, a lightweight container that provides an isolated environment in which the slug can be mounted and executed.</li>
-        <li>You can scale your app, manage it, and deploy over <a href="https://addons.heroku.com/">150 add-on services</a>, from the Dashboard or CLI.</li>
-      </ul>
-    </div>
-    <div class="col-md-6">
-      <h3><span class="glyphicon glyphicon-link"></span> Next Steps</h3>
-      <ul>
-        <li>If you are following the <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">Getting Started</a> guide, then please head back to the tutorial and follow the next steps!</li>
-        <li>If you deployed this app by deploying the Heroku Button, then in a command line shell, run:</li>
-        <ul>
-          <li><code>git clone https://github.com/heroku/node-js-getting-started.git</code> - this will create a local copy of the source code for the app</li>
-          <li><code>cd node-js-getting-started</code> - change directory into the local source code repository</li>
-          <li><code>heroku git:remote -a &lt;your-app-name></code> - associate the Heroku app with the repository</li>
-          <li>You'll now be set up to run the app locally, or <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs#push-local-changes">deploy changes</a> to Heroku</li>
-        </ul>
-      </ul>
-      <h3><span class="glyphicon glyphicon-link"></span> Helpful Links</h3>
-      <ul>
-        <li><a href="https://www.heroku.com/home">Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/">Heroku Dev Center</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">Getting Started with Node on Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/deploying-nodejs">Deploying Node Apps on Heroku</a></li>
-      </ul>
     </div>
   </div> <!-- row -->
-   <div class="alert alert-info text-center" role="alert">
-    Please do work through the Getting Started guide, even if you do know how to build such an application.  The guide covers the basics of working with Heroku, and will familiarize you with all the concepts you need in order to build and deploy your own apps.
-  </div>
 </div>
 
 
