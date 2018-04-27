@@ -1,5 +1,5 @@
 # SMS Pigeon
-> A Maps Service for the Dataless Travellers
+> A Maps Service for the Dataless Travellers +1-438-795-MAPS(6277)
 
 ![SMS Pigeon](public/images/logo.gif)
 ## Inspiration
@@ -22,7 +22,9 @@ NodeJS, what is an API, what can we do with all these things, and how we can mak
 
 ## What's next for SMS Pigeon
 [x] Deploy the server in the cloud via Heroku or something similar
+
 [ ] Enhancing the text parsing to be less verbose
+
 [ ] Integrate Twilio's speech to text API functionalities
 
 ## Built With
