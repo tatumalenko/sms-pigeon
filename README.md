@@ -21,11 +21,9 @@ Completely new environment was learned for most of us, were able to finalize our
 NodeJS, what is an API, what can we do with all these things, and how we can make use of it to build something that actually works.
 
 ## What's next for SMS Pigeon
-[x] Deploy the server in the cloud via Heroku or something similar
-
-[ ] Enhancing the text parsing to be less verbose
-
-[ ] Integrate Twilio's speech to text API functionalities
+- [x] Deploy the server in the cloud via Heroku or something similar
+- [ ] Enhancing the text parsing to be less verbose
+- [ ] Integrate Twilio's speech to text API functionalities
 
 ## Built With
 `node.js`, `javascript `, `twilio`, `google-directions`
