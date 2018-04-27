@@ -15,20 +15,21 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@google/maps": "^0.4.5",
+    "@google/maps": "^0.4.6",
     "body-parser": "^1.18.2",
-    "ejs": "^2.5.7",
-    "express": "^4.16.2",
+    "ejs": "^2.5.9",
+    "express": "^4.16.3",
     "foreman": "2.0.0",
-    "twilio": "^3.11.1"
+    "npm": "^6.0.0",
+    "twilio": "^3.15.1"
   },
   "devDependencies": {
-    "eslint": "^4.16.0",
+    "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.6.0",
-    "nodemon": "^1.14.11"
+    "eslint-plugin-react": "^7.7.0",
+    "nodemon": "^1.17.3"
   },
   "engines": {
     "node": "8.9.0"
